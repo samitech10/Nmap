@@ -1,0 +1,97 @@
+checks the state of the most popular ports on the host:
+#Method:TCP
+$ nmap www.targetwebsite.com
+
+converting the hostname to an IPv4 address using DNS
+nmap --dns-servers 8.8.8.8,8.8.4.4 www.targetwebsite.com
+
+pings the target address to check if the host is alive
+$ nmap -PN www.targetwebsite.com
+ Nmap then converts the IPv4 address back to a hostname by using a reverse DNS call. Use -n to skip this step as follows:
+$ nmap -n targetwebsite 
+
+launches a TCP port scan. To specify a different port range, use -p[1-65535],  or -p- for all possible TCP ports, as shown in the following command:
+$ nmap -p1-30 targetwebsite
+
+fingerprinting services
+nmap -sV targetwebsite
+
+You can set the amount of probes to use by changing the intensity level of the scan with the argument –-version-intensity [0-9], as follows:
+# nmap -sV –-version-intensity 9
+
+Aggressive detection
+ nmap -A <target> Or
+ nmap -sC -sV -O <target>
+
+Finding live hosts in your network
+$ nmap -sP 192.168.1.1/24
+
+ARP requests are used when scanning a local Ethernet network as a privileged user,  but you can override this behavior by including the flag --send-ip.
+# nmap -sP --send-ip 192.168.1.1/24
+
+Traceroute Use --traceroute to include a path between your machine and each host that was found.
+Nmap scan report for 192.168.1.101 
+
+NSE scripts 
+NSE scripts Ping scanning does not perform port scanning or service detection, but the Nmap  Scripting Engine can be enabled for scripts depending on host rules, such as the  cases of sniffer-detect and dns-brute.
+# nmap -sP --script discovery 192.168.1.1/24 
+
+Scanning using specific port range
+# nmap -p80 192.168.1.1/24 
+
+# nmap -p80,443 localhost
+
+ Port range: 
+# nmap -p1-100 localhost 
+
+ All ports: 
+# nmap -p- localhost 
+
+ Specific ports by protocols: 
+# nmap -pT:25,U:53 <target> 
+
+ Service name:
+ # nmap -p smtp <target> 
+
+Service name wildcards: 
+# nmap -p smtp* <target> 
+
+Only ports registered in Nmap services:
+# nmap -p[1-65535] <target>
+
+Running NSE scripts
+$ nmap -sV --script http-title targetwebsite 
+
+$ nmap --script http-headers,http-title targetwebsite 
+
+Run all the scripts in the vuln category:
+ $ nmap -sV --script vuln <target>
+
+ Run the scripts in the categories version or discovery: 
+$ nmap -sV --script="version,discovery" <target> 
+
+Run all the scripts except for the ones in the exploit category: 
+$ nmap -sV --script "not exploit" <target> 
+
+Run all HTTP scripts except http-brute and http-slowloris:
+$ nmap -sV --script "(http-*) and not(http-slowloris or httpbrute)" <target>
+
+--script-trace. This enables a stack trace of the executed script to help you to debug the session. Remember that sometimes you may need to increase the debugging level with the flag -d[1-9] to get to the bottom of the problem
+
+NSE script arguments 
+The flag --script-args is used to set arguments of NSE scripts. For example, if you would like to set the HTTP library argument useragent, you would use:
+$ nmap -sV --script http-title --script-args http.useragent="Mozilla 999" <target> 
+
+You can also use aliases when setting the arguments for NSE scripts. For example,  you could use
+$ nmap -p80 --script http-trace --script-args path <target>
+
+Instead of:
+$ nmap -p80 --script http-trace --script-args http-trace.path <target
+
+Scanning using a specified network interface
+$ nmap -e <INTERFACE> targetwebsite
+
+Checking a TCP connection 
+$ nmap -sP -e INTERFACE 192.168.1.254
+
+
