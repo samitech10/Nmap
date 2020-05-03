@@ -1,3 +1,15 @@
+  #Index#
+1.Listing open ports on a remote host 
+2.Fingerprinting services of a remote host 
+3.Finding live hosts in your network 
+4.Scanning using specific port ranges 
+5.Running NSE scripts 
+6.Scanning using a specified network interface 
+7.Comparing scan results with Ndiff 
+8.Managing multiple scanning profiles with Zenmap 
+9.Detecting NAT with Nping 
+10.Monitoring servers remotely with Nmap and Ndiff 
+
 checks the state of the most popular ports on the host:
 #Method:TCP
 $ nmap www.targetwebsite.com
